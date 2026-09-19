@@ -117,8 +117,18 @@
 	}
 	body {
 		@apply bg-background text-foreground;
+		transition:
+			background-color 300ms ease,
+			color 300ms ease,
+			border-color 300ms ease;
 	}
 	html {
 		font-family: "Inter Variable", sans-serif;
 	}
+}
+
+/* Suave transición global al cambiar tema */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 300ms;
 }
