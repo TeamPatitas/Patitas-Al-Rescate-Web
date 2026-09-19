@@ -25,7 +25,7 @@
 						<NavigationMenuLink href="/">Inicio</NavigationMenuLink>
 					</NavigationMenuItem>
 					<NavigationMenuItem>
-						<NavigationMenuLink href="https://svelte.dev/docs/kit" target="_blank" rel="noreferrer">
+						<NavigationMenuLink href={resolve("/docs")}>
 							Documentación
 						</NavigationMenuLink>
 					</NavigationMenuItem>
