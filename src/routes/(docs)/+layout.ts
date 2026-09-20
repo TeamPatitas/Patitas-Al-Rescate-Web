@@ -27,7 +27,7 @@ export const load: LayoutLoad = async ({ fetch }) => {
         };
     } catch (e) {
         console.warn("API inaccesible, usando fallback", e);
-        const fallbackRes = await fetch('/fallback-swagger.json');
+        const fallbackRes = await fetch('/docs-fallback.json');
         const swaggerData = await fallbackRes.json();
 
         return {
