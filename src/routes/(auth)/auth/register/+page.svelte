@@ -6,13 +6,14 @@
     
     import { goto } from "$app/navigation";
     import { PUBLIC_API_URL } from "$env/static/public";
-	import { resolve } from "$app/paths";
-	import { ArrowLeft } from "@lucide/svelte";
+    import { resolve } from "$app/paths";
+    import { ArrowLeft, Eye, EyeOff } from "@lucide/svelte"; 
 
     let firstName = $state("");
     let lastName = $state("");
     let email = $state("");
     let password = $state("");
+    let confirmPassword = $state("");
     let birthDate = $state("");
     let gender = $state(0);
 
@@ -22,11 +23,22 @@
     let errorMessage = $state("");
     let successMessage = $state("");
 
+    // Estados para mostrar/ocultar contraseñas
+    let showPassword = $state(false);
+    let showConfirmPassword = $state(false);
+
     async function handleRegister(event: Event) {
         event.preventDefault();
         loading = true;
         errorMessage = "";
         successMessage = "";
+
+        // Validación de contraseñas
+        if (password !== confirmPassword) {
+            errorMessage = "Las contraseñas no coinciden.";
+            loading = false;
+            return;
+        }
 
         try {
             const formData = new FormData();
@@ -43,7 +55,6 @@
 
             const res = await fetch(`${PUBLIC_API_URL}/auth/register`, {
                 method: "POST",
-  
                 body: formData
             });
 
@@ -69,7 +80,7 @@
 <div class="min-h-screen flex items-center justify-center bg-muted/30 p-4 py-12">
     
     <Card.Root class="w-full max-w-lg shadow-lg">
-        <Card.Header class="space-y-1 text-center">
+        <Card.Header class="relative space-y-1 text-center">
             <Button 
                 href={resolve("/")} 
                 variant="ghost" 
@@ -79,7 +90,7 @@
             >
                 <ArrowLeft class="h-4 w-4" />
             </Button>
-            <Card.Title class="text-2xl font-bold tracking-tight">Crear Cuenta</Card.Title>
+            <Card.Title class="text-2xl font-bold tracking-tight mt-2">Crear Cuenta</Card.Title>
         </Card.Header>
         
         <Card.Content>
@@ -99,22 +110,72 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="space-y-2">
                         <Label for="firstName">Nombre(s) *</Label>
-                        <Input id="firstName" bind:value={firstName} required disabled={loading} placeholder="Balatro" />
+                        <Input id="firstName" bind:value={firstName} required disabled={loading} placeholder="Juan" />
                     </div>
                     <div class="space-y-2">
                         <Label for="lastName">Apellidos *</Label>
-                        <Input id="lastName" bind:value={lastName} required disabled={loading} placeholder="Balatrez" />
+                        <Input id="lastName" bind:value={lastName} required disabled={loading} placeholder="Pérez" />
                     </div>
                 </div>
 
                 <div class="space-y-2">
                     <Label for="email">Correo Electrónico *</Label>
-                    <Input id="email" type="email" bind:value={email} required disabled={loading} placeholder="hola@xd.com" />
+                    <Input id="email" type="email" bind:value={email} required disabled={loading} placeholder="juan@ejemplo.com" />
                 </div>
 
-                <div class="space-y-2">
-                    <Label for="password">Contraseña *</Label>
-                    <Input id="password" type="password" bind:value={password} required disabled={loading} />
+                <!-- Contraseñas en Grid (2 columnas) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Contraseña Principal -->
+                    <div class="space-y-2">
+                        <Label for="password">Contraseña *</Label>
+                        <div class="relative">
+                            <Input 
+                                id="password" 
+                                type={showPassword ? "text" : "password"} 
+                                bind:value={password} 
+                                required 
+                                disabled={loading} 
+                                class="pr-10" 
+                            />
+                            <button 
+                                type="button" 
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+                                onclick={() => showPassword = !showPassword}
+                            >
+                                {#if showPassword}
+                                    <EyeOff class="h-4 w-4" />
+                                {:else}
+                                    <Eye class="h-4 w-4" />
+                                {/if}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Confirmar Contraseña -->
+                    <div class="space-y-2">
+                        <Label for="confirmPassword">Confirmar Contraseña *</Label>
+                        <div class="relative">
+                            <Input 
+                                id="confirmPassword" 
+                                type={showConfirmPassword ? "text" : "password"} 
+                                bind:value={confirmPassword} 
+                                required 
+                                disabled={loading} 
+                                class="pr-10" 
+                            />
+                            <button 
+                                type="button" 
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+                                onclick={() => showConfirmPassword = !showConfirmPassword}
+                            >
+                                {#if showConfirmPassword}
+                                    <EyeOff class="h-4 w-4" />
+                                {:else}
+                                    <Eye class="h-4 w-4" />
+                                {/if}
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
