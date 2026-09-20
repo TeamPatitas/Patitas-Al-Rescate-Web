@@ -137,7 +137,7 @@
                                 <Table.Row>
                                     <Table.Head class="w-[30%]">Atributo</Table.Head>
                                     <Table.Head class="w-[40%]">Tipo</Table.Head>
-                                    <Table.Head class="text-right">Requerido</Table.Head>
+                                    <Table.Head class="text-right">Condición</Table.Head>
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
@@ -164,15 +164,9 @@
 
                                         <Table.Cell class="text-right">
                                             {#if prop.required}
-                                                <Badge
-                                                    variant="default"
-                                                    class="bg-red-500/10 text-red-500 hover:bg-red-500/20 border-none"
-                                                    >Sí</Badge
-                                                >
+                                                <span class="text-red-500 text-xs font-semibold">REQUIRED</span>
                                             {:else}
-                                                <Badge variant="outline" class="text-muted-foreground border-dashed"
-                                                    >Opcional</Badge
-                                                >
+                                                <span class="text-muted-foreground text-xs">OPTIONAL</span>
                                             {/if}
                                         </Table.Cell>
                                     </Table.Row>

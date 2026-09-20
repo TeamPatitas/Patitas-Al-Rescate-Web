@@ -15,9 +15,9 @@
     } = $props();
 </script>
 
-<div class="space-y-8">
+<div class="max-w-4xl px-4 py-8 md:px-6 mx-auto w-full">
     {#each endpoints as ep}
-        <Card.Root class="m-10 scroll-mt-20" id={ep.id}>
+        <Card.Root class="my-10 scroll-mt-20" id={ep.id}>
             <Card.Header class="border-b">
                 <div class="flex items-center gap-3">
                     <Badge variant="outline" class="text-sm font-bold border-none {getMethodColor(ep.method)}">
@@ -56,7 +56,7 @@
 
                     {#if ep.roles}
                         <div>
-                            <h4 class="text-xs font-semibold uppercase text-muted-foreground mb-2">Rol Mínimo Requerido</h4>
+                            <h4 class="text-xs font-semibold uppercase text-muted-foreground mb-2">Política de Roles</h4>
                             <Badge variant="secondary">{ep.roles}</Badge>
                         </div>
                     {/if}
@@ -70,7 +70,7 @@
                                         <Table.Row>
                                             <Table.Head>Nombre</Table.Head>
                                             <Table.Head>Ubicación</Table.Head>
-                                            <Table.Head class="text-right">Requerido</Table.Head>
+                                            <Table.Head class="text-right">Condición</Table.Head>
                                         </Table.Row>
                                     </Table.Header>
                                     <Table.Body>
@@ -80,9 +80,9 @@
                                                 <Table.Cell class="text-muted-foreground text-xs uppercase">{param.in}</Table.Cell>
                                                 <Table.Cell class="text-right">
                                                     {#if param.required}
-                                                        <span class="text-red-500 text-xs font-semibold">Sí</span>
+                                                        <span class="text-red-500 text-xs font-semibold">REQUIRED</span>
                                                     {:else}
-                                                        <span class="text-muted-foreground text-xs">Opcional</span>
+                                                        <span class="text-muted-foreground text-xs">OPTIONAL</span>
                                                     {/if}
                                                 </Table.Cell>
                                             </Table.Row>

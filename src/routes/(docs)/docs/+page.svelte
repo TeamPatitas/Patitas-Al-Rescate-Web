@@ -30,7 +30,7 @@
 				<Card.Description>{item.description}</Card.Description>
 			</Card.Header>
 			<Card.Footer>
-				<Button href={resolve('/docs/admin')} class="w-full rounded-full">Ver Administración <ArrowRight class="ml-2 h-4 w-4" /></Button>
+				<Button href={resolve('/docs/admin')} class="w-full rounded-full">Ver Detalles<ArrowRight class="ml-2 h-4 w-4" /></Button>
 			</Card.Footer>
 			
 		</Card.Root>

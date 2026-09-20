@@ -91,7 +91,7 @@
                         <Table.Root>
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.Head class="w-[20%]">Índice</Table.Head>
+                                    <Table.Head >Índice</Table.Head>
                                     <Table.Head>Valor</Table.Head>
                                 </Table.Row>
                             </Table.Header>
