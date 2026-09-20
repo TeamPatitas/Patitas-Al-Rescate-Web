@@ -41,6 +41,19 @@
                     </div>
                     {/if}
 
+                    {#if ep.cooldown}
+                        <div>
+                            <h4 class="text-xs font-semibold uppercase text-muted-foreground mb-2">
+                                Cooldown
+                            </h4>
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                                <p class="text">
+                                    {ep.cooldown} entre cada petición.
+                                </p>
+                            </div>
+                        </div>
+                    {/if}
+
                     {#if ep.roles}
                         <div>
                             <h4 class="text-xs font-semibold uppercase text-muted-foreground mb-2">Rol Mínimo Requerido</h4>

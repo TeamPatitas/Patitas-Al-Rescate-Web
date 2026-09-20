@@ -14,6 +14,7 @@ export interface EndpointInfo {
     method: string;
     description: string | undefined;
     roles?: string;
+    cooldown: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     parameters: any[];
     reqSchema: string | null;
@@ -64,6 +65,7 @@ export function extractEndpoints(swaggerData: any, filterPrefix: string): Endpoi
                 method: methodName.toUpperCase(),
                 description: details.description,
                 roles: details['x-roles-policy'],
+                cooldown: details['x-cooldown'],
                 parameters: details.parameters || [],
                 reqSchema,
                 resSchema
