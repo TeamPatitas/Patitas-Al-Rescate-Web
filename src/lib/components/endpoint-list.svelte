@@ -18,7 +18,7 @@
 <div class="space-y-8">
     {#each endpoints as ep}
         <Card.Root class="m-10 scroll-mt-20" id={ep.id}>
-            <Card.Header class="pb-4 border-b">
+            <Card.Header class="border-b">
                 <div class="flex items-center gap-3">
                     <Badge variant="outline" class="text-sm font-bold border-none {getMethodColor(ep.method)}">
                         {ep.method}
@@ -29,10 +29,10 @@
                 </div>
             </Card.Header>
             
-            <Card.Content class="pt-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Card.Content class="pt-2 gap-8">
                 <div class="space-y-6">
                     <div>
-                        <p class="text-muted-foreground">Nombre en API: {ep.apiname}</p>
+                        <p class="text"><span class="font-bold">Nombre en API:</span> {ep.apiname}</p>
                     </div>
 
                     {#if ep.description}

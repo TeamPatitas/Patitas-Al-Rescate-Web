@@ -60,10 +60,20 @@
 				<Sidebar.GroupContent>
 					<Sidebar.Menu>
 						<Sidebar.MenuItem>
-							<Sidebar.MenuButton class="px-5" tooltipContent="Shemas">
+							<Sidebar.MenuButton class="px-5" tooltipContent="Schemas">
 								{#snippet child({ props })}
 									<a href={resolve("/docs/schemas")} {...props}>
 										<span>Schemas</span>
+									</a>
+								{/snippet}
+							</Sidebar.MenuButton>
+						</Sidebar.MenuItem>
+
+						<Sidebar.MenuItem>
+							<Sidebar.MenuButton class="px-5" tooltipContent="Enums">
+								{#snippet child({ props })}
+									<a href={resolve("/docs/enums")} {...props}>
+										<span>Enums</span>
 									</a>
 								{/snippet}
 							</Sidebar.MenuButton>
