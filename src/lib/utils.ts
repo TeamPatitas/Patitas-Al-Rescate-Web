@@ -82,3 +82,14 @@ export function getMethodColor(method: string): string {
     };
     return colors[method] || 'bg-gray-500/10 text-gray-600';
 }
+
+export interface User {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    photoUrl?: string; 
+    birthDate?: string;
+    gender?: number;
+    isEmailConfirmed: boolean;
+    roles?: string[];
+}

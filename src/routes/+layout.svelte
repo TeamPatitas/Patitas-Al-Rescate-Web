@@ -1,11 +1,16 @@
 <script lang="ts">
 	import './layout.css';
 	import '../app.css';
+	import { auth } from '$lib/auth.svelte';
 	import favicon from '$lib/assets/favicon.ico';
 	import { ModeWatcher } from 'mode-watcher';
+	import { onMount } from 'svelte';
 
 
     let { children } = $props();
+	onMount(() => {
+        auth.init();
+    });
 </script>
 
 <svelte:head>
