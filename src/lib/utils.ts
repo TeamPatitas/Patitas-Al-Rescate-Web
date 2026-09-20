@@ -1,3 +1,6 @@
+import { Book, House, KeyRound, LayoutList, PawPrint, ShieldCheck, SquareText } from "@lucide/svelte";
+import type { Component } from "svelte";
+
 export { cn } from "cn";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -79,7 +82,7 @@ export function getMethodColor(method: string): string {
     const colors: Record<string, string> = {
         GET: 'bg-green-500/10 text-green-600 hover:bg-green-500/20',
         POST: 'bg-blue-500/10 text-blue-600 hover:bg-blue-500/20',
-        PATCH: 'bg-orange-500/10 text-orange-600 hover:bg-orange-500/20',
+        PATCH: 'bg-teal-500/10 text-teal-600 hover:bg-teal-500/20',
         DELETE: 'bg-red-500/10 text-red-600 hover:bg-red-500/20'
     };
     return colors[method] || 'bg-gray-500/10 text-gray-600';
@@ -94,4 +97,34 @@ export interface User {
     gender?: number;
     isEmailConfirmed: boolean;
     roles?: string[];
+}
+
+export interface Headeroptions {
+    title: string,
+    icon: Component
+}
+
+export const menuItems = {
+    "Principal":[
+        { title: 'Inicio', description: "", icon: Book, url: "/docs" },
+        { title: 'Administración', description: "Endpoints para administrar 🐒, la mayoría acá solo lo pueden usar devs.", icon: ShieldCheck, url: '/docs/admin' },
+        { title: 'Autenticación', description: "El nombre lo dice, aquí hay endpoints para iniciar sesión, registrarse, etc.", icon: KeyRound, url: '/docs/auth' },
+        { title: 'Mascotas', description: "Información acerca de las mascotas por cada refugios", icon: PawPrint, url: '/docs/pets' },
+        { title: 'Refugios', description: "Refugios 🤌", icon: House, url: '/docs/shelters' }
+    ],
+    "Otros":[
+        { title: 'Schemas', description: "", icon: LayoutList, url: "/docs/schemas" },
+        { title: 'Enums', description: "", icon: SquareText, url: "/docs/enums"}
+    ]
+};
+
+export function getMenuItemByUrl(path: string) {
+    for (const groupItems of Object.values(menuItems)) {
+        const foundItem = groupItems.find(item => item.url === path);
+        if (foundItem) {
+            return foundItem;
+        }
+    }
+    
+    return null;
 }

@@ -11,7 +11,7 @@
         filterName = "esta sección"
     }: { 
         endpoints: EndpointInfo[];
-        filterName?: string;
+        filterName: string;
     } = $props();
 </script>
 

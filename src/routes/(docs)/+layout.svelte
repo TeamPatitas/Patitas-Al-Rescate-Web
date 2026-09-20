@@ -2,14 +2,28 @@
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Button } from '$lib/components/ui/button';
-	import { BookOpen, Moon, Sun } from '@lucide/svelte';
+	import { Moon, Sun } from '@lucide/svelte';
 	import { resolve } from '$app/paths';
 	import { mode, toggleMode } from 'mode-watcher';
 	import { scale } from 'svelte/transition';
 	import logo from '$lib/assets/icon.png';
+	import { setContext } from 'svelte';
+	import { getMenuItemByUrl, menuItems, type Headeroptions } from '$lib/utils.js';
+	import { afterNavigate } from '$app/navigation';
 
-	let { data, children } = $props();
-	const items = $derived(data.menuItems);
+
+	let headerOptions: Headeroptions = $state(menuItems.Principal[0]);
+	
+	setContext("header-options", headerOptions);
+	afterNavigate((navigation) => {
+        const actualPath = navigation.to?.url.pathname ?? "/docs";
+
+		let element = getMenuItemByUrl(actualPath)!;
+		headerOptions.icon = element.icon;
+		headerOptions.title = element.title;
+    });
+
+	let { children } = $props();
 </script>
 
 <svelte:head>
@@ -36,52 +50,28 @@
 		</Sidebar.Header>
 
 		<Sidebar.Content>
-			<Sidebar.Group>
-				<Sidebar.GroupLabel>Principal</Sidebar.GroupLabel>
-				<Sidebar.GroupContent>
-					<Sidebar.Menu>
-						{#each items as item (item.title)}
-							<Sidebar.MenuItem>
-								<Sidebar.MenuButton class="px-5" tooltipContent={item.title}>
-									{#snippet child({ props })}
-										<a href={item.url} {...props}>
-											<span>{item.title}</span>
-										</a>
-									{/snippet}
-								</Sidebar.MenuButton>
-							</Sidebar.MenuItem>
-						{/each}
-					</Sidebar.Menu>
-				</Sidebar.GroupContent>
-			</Sidebar.Group>
-
-			<Sidebar.Group>
-				<Sidebar.GroupLabel>Otros</Sidebar.GroupLabel>
-				<Sidebar.GroupContent>
-					<Sidebar.Menu>
-						<Sidebar.MenuItem>
-							<Sidebar.MenuButton class="px-5" tooltipContent="Schemas">
-								{#snippet child({ props })}
-									<a href={resolve("/docs/schemas")} {...props}>
-										<span>Schemas</span>
-									</a>
-								{/snippet}
-							</Sidebar.MenuButton>
-						</Sidebar.MenuItem>
-
-						<Sidebar.MenuItem>
-							<Sidebar.MenuButton class="px-5" tooltipContent="Enums">
-								{#snippet child({ props })}
-									<a href={resolve("/docs/enums")} {...props}>
-										<span>Enums</span>
-									</a>
-								{/snippet}
-							</Sidebar.MenuButton>
-						</Sidebar.MenuItem>
-					</Sidebar.Menu>
-				</Sidebar.GroupContent>
-			</Sidebar.Group>
-		</Sidebar.Content>
+            {#each Object.entries(menuItems) as [groupName, items](groupName)}
+                <Sidebar.Group>
+                    <Sidebar.GroupLabel>{groupName}</Sidebar.GroupLabel>
+                    <Sidebar.GroupContent>
+                        <Sidebar.Menu>
+                            {#each items as item (item.title)}
+                                <Sidebar.MenuItem>
+                                    <Sidebar.MenuButton class="px-3" tooltipContent={item.title}>
+                                        {#snippet child({ props })}
+                                            <a href={item.url} {...props} >
+                                                <item.icon class="h-4 w-4" />
+                                                <span>{item.title}</span>
+                                            </a>
+                                        {/snippet}
+                                    </Sidebar.MenuButton>
+                                </Sidebar.MenuItem>
+                            {/each}
+                        </Sidebar.Menu>
+                    </Sidebar.GroupContent>
+                </Sidebar.Group>
+            {/each}
+        </Sidebar.Content>
 
 		<Sidebar.Footer>
 			<div class="px-2 py-2 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
@@ -98,8 +88,8 @@
 				<Sidebar.Trigger class="-ml-1" />
 				<Separator orientation="vertical" class="mr-2 h-4" />
 				<div class="flex items-center gap-2">
-					<BookOpen class="h-4 w-4 text-orange-600" />
-					<span class="font-semibold">Documentación</span>
+					<headerOptions.icon class="h-4 w-4 text-orange-600" />
+					<span class="font-semibold">{headerOptions.title}</span>
 				</div>
 			</div>
 			<Button variant="outline" size="icon" onclick={toggleMode} aria-label="Cambiar tema" class="rounded-full shrink-0">

@@ -4,9 +4,7 @@
 	import { ArrowRight } from '@lucide/svelte';
 	import { resolve } from '$app/paths';
 	import { PUBLIC_API_URL } from "$env/static/public"
-
-	const { data } = $props();
-	const menuItems  = $derived(data.menuItems);
+	import { menuItems } from '$lib/utils.js';
 </script>
 
 <div class="mx-auto w-full max-w-4xl px-4 py-8 md:px-6 lg:py-10">
@@ -19,7 +17,7 @@
 	</p>
 
 	<div class="mt-8 grid gap-4 md:grid-cols-2">
-		{#each menuItems as item (item.title)}
+		{#each menuItems["Principal"] as item (item.title)}
 		{#if item.title != "Inicio"}
 			<Card.Root class="group hover:shadow-md transition-shadow">
 			<Card.Header>
