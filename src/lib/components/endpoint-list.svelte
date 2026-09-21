@@ -3,8 +3,9 @@
     import * as Card from "$lib/components/ui/card";
     import * as Table from "$lib/components/ui/table";
     import { Badge } from "$lib/components/ui/badge";
-    import { getMethodColor, type EndpointInfo } from "$lib/utils";
+    import { getMethodColor, replaceDecorators, type EndpointInfo } from "$lib/utils";
 	import { resolve } from "$app/paths";
+    import DOMPurify from "isomorphic-dompurify";
 
     let { 
         endpoints, 
@@ -37,7 +38,8 @@
 
                     {#if ep.description}
                     <div>
-                        <p class="text-muted-foreground">{ep.description}</p>
+                        <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                        <p class="text-muted-foreground">{@html DOMPurify.sanitize(replaceDecorators(ep.description))}</p>
                     </div>
                     {/if}
 

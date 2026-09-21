@@ -4,6 +4,10 @@
     import Badge from '$lib/components/ui/badge/badge.svelte';
     import * as Card from '$lib/components/ui/card';
     import * as Table from '$lib/components/ui/table';
+    
+    import DOMPurify from 'isomorphic-dompurify';
+    import { replaceDecorators } from '$lib/utils.js';
+
     let { data } = $props();
 
     let schemasList = $derived(() => {
@@ -46,6 +50,7 @@
                     required: boolean;
                     enumRef: string | null;
                     schemaRef: string | null;
+                    description: string | null;
                 }[] = [];
 
                 if (schemaDetails.properties) {
@@ -76,7 +81,14 @@
                             if (propVal.format) type += ` (${propVal.format})`;
                             const isRequired = schemaDetails.required?.includes(propName) ?? false;
                             
-                            return { name: propName, type, required: isRequired, enumRef, schemaRef };
+                            return { 
+                                name: propName, 
+                                type, 
+                                required: isRequired, 
+                                enumRef, 
+                                schemaRef,
+                                description: propVal.description || null
+                            };
                         }
                     );
                 }
@@ -130,8 +142,9 @@
                             <Table.Header>
                                 <Table.Row>
                                     <Table.Head class="w-[30%]">Atributo</Table.Head>
-                                    <Table.Head class="w-[40%]">Tipo</Table.Head>
-                                    <Table.Head class="text-right">Condición</Table.Head>
+                                    <Table.Head class="w-[30%]">Tipo</Table.Head>
+                                    <Table.Head class="w-[40%]">Nota</Table.Head>
+                                    <Table.Head class="text-right w-[10%]">Condición</Table.Head>
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
@@ -143,7 +156,7 @@
                                         
                                         <Table.Cell class="text-muted-foreground">
                                             {#if prop.enumRef}
-												<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+                                                <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
                                                 <a href="/docs/enums#{prop.enumRef}" class="text-primary hover:underline font-mono">
                                                     {prop.type}
                                                 </a>
@@ -153,6 +166,17 @@
                                                 </a>
                                             {:else}
                                                 {prop.type}
+                                            {/if}
+                                        </Table.Cell>
+
+                                        <Table.Cell class="text-muted-foreground text-sm">
+                                            {#if prop.description}
+                                                <div class="prose prose-sm dark:prose-invert">
+                                                    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                                                    {@html DOMPurify.sanitize(replaceDecorators(prop.description))}
+                                                </div>
+                                            {:else}
+                                                <span class="italic opacity-50">Sin nota</span>
                                             {/if}
                                         </Table.Cell>
 
