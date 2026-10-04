@@ -45,10 +45,18 @@
     <div class="flex items-center justify-between">
         <h1 class="text-3xl font-bold tracking-tight">Mi Perfil</h1>
         {#if auth.user}
-            <Button variant="destructive" size="sm" onclick={() => auth.logout()} class="gap-2">
-                <LogOut class="h-4 w-4" />
-                Cerrar Sesión
-            </Button>
+            <div class="flex items-center gap-2">
+                {#if auth.user.roles?.includes('Dev')}
+                    <Button href={resolve('/admin')} variant="default" size="sm" class="gap-2">
+                        <Shield class="h-4 w-4" />
+                        Panel Admin
+                    </Button>
+                {/if}
+                <Button variant="destructive" size="sm" onclick={() => auth.logout()} class="gap-2">
+                    <LogOut class="h-4 w-4" />
+                    Cerrar Sesión
+                </Button>
+            </div>
         {/if}
     </div>
 

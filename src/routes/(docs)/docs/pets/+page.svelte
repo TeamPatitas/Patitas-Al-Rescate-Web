@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EndpointList from "$lib/components/endpoint-list.svelte";
+	import EndpointList from "$lib/components/docs/endpoint-list.svelte";
 	import { extractEndpoints } from "$lib/utils.js";
 
     let { data } = $props();

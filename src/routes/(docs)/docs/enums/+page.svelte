@@ -1,5 +1,5 @@
 <script>
-	import EnumsList from "$lib/components/enums-list.svelte";
+	import EnumsList from "$lib/components/docs/enums-list.svelte";
     let { data } = $props();
 </script>
 

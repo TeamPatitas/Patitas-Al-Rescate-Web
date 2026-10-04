@@ -1,6 +1,6 @@
 
 <script lang="ts">
-	import Navbar from '$lib/components/navbar.svelte';
+	import NavBar from '$lib/components/feed/navbar.svelte';
 
 	let { children } = $props();
 </script>
@@ -8,7 +8,7 @@
 	<title>Patitas al Rescate</title>
 </svelte:head>
 
-<Navbar />
+<NavBar />
 
 <main class="container mx-auto p-4">
 	{@render children()}

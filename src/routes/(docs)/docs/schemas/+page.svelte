@@ -1,5 +1,5 @@
 <script>
-	import SchemasList from "$lib/components/schemas-list.svelte";
+	import SchemasList from "$lib/components/docs/schemas-list.svelte";
     let { data } = $props();
 </script>
 

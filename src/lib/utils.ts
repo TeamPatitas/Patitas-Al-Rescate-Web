@@ -1,4 +1,4 @@
-import { Book, House, KeyRound, LayoutList, PawPrint, ShieldCheck, SquareText, Ticket } from "@lucide/svelte";
+import { Book, House, KeyRound, LayoutList, PawPrint, ScanHeart, ShieldCheck, SquareText, Ticket, UsersRound } from "@lucide/svelte";
 import type { Component } from "svelte";
 
 export { cn } from "cn";
@@ -78,6 +78,15 @@ export function extractEndpoints(swaggerData: any, filterPrefix: string): Endpoi
     return list;
 }
 
+export function getRoleColor(role: string): string {
+	const colors: Record<string, string> = {
+		Dev: 'bg-violet-500/15 text-violet-700 hover:bg-violet-500/25 dark:text-violet-300',
+		ShelterOwner: 'bg-sky-500/15 text-sky-700 hover:bg-sky-500/25 dark:text-sky-300',
+		User: 'bg-emerald-500/15 text-emerald-700 hover:bg-emerald-500/25 dark:text-emerald-300'
+	};
+	return colors[role] ?? 'bg-gray-500/10 text-gray-600';
+}
+
 export function getMethodColor(method: string): string {
     const colors: Record<string, string> = {
         GET: 'bg-green-500/10 text-green-600 hover:bg-green-500/20',
@@ -104,7 +113,16 @@ export interface Headeroptions {
     icon: Component
 }
 
-export const menuItems = {
+export interface ItemsList {
+    [id: string]: {
+        title: string
+        description?: string
+        icon: Component
+        url: string
+    }[]
+}
+
+export const docsSidebarItems: ItemsList = {
     "Principal": [
         { title: 'Inicio', description: "", icon: Book, url: "/docs" },
         { title: 'Administración', description: "Endpoints para administrar 🐒, la mayoría acá solo lo pueden usar devs.", icon: ShieldCheck, url: '/docs/admin' },
@@ -119,8 +137,18 @@ export const menuItems = {
     ]
 };
 
-export function getMenuItemByUrl(path: string) {
-    for (const groupItems of Object.values(menuItems)) {
+export const adminPanelItems: ItemsList = {
+    "Principal": [
+        { title: 'Estado de la API', description: "", icon: ScanHeart, url: "/admin" },
+    ],
+    "Administración": [
+        { title: 'Refugios', icon: House, url: '/admin/shelters' },
+        { title: 'Usuarios', icon: UsersRound, url: '/admin/users' }
+    ]
+}
+
+export function getMenuItemByUrl(path: string, items: ItemsList) {
+    for (const groupItems of Object.values(items)) {
         const foundItem = groupItems.find(item => item.url === path);
         if (foundItem) {
             return foundItem;
